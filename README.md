@@ -40,8 +40,9 @@ on that project's page:
 project: astro-components
 ```
 
-The included demo content uses real Prosefly projects and articles. Replace those entries and the
-site configuration in `src/data/config.ts` when starting a new site.
+The included demo content presents Aster alongside real projects and articles from the Prosefly
+ecosystem. Replace those entries and the site configuration in `src/data/config.ts` when starting a
+new site.
 
 ```text
 src/

@@ -1,0 +1,111 @@
+---
+title: Aster
+description: An editorial Astro template for projects and writing
+year: 2026
+status: Open source
+tags:
+  - Astro
+  - Portfolio
+  - Blogging
+website: https://astro-template-aster.prosefly.dev/
+repository: https://github.com/prosefly/astro-template-aster
+featured: true
+order: 50
+---
+
+import {
+  Badge,
+  Callout,
+  Card,
+  CardGrid,
+  FileTree,
+} from '@prosefly/astro-components'
+
+<Badge color="success">Open-source template</Badge>
+
+Aster began with a simple observation: project work and the writing around it usually belong
+together, but portfolio templates tend to separate them. Case studies live in one grid, articles in
+another archive, and the connection between the two is left for readers to infer.
+
+The template gives both kinds of content equal weight. Projects explain what was built; posts
+capture the decisions, experiments, and lessons behind the work. A small reference in frontmatter
+connects them, so every project can become an ongoing record rather than a finished thumbnail.
+
+<Callout type="note" title="The central idea">
+  Treat a portfolio as a body of work with context, not a gallery followed by an
+  unrelated blog.
+</Callout>
+
+## Two collections, one narrative
+
+Aster uses separate Astro content collections for projects and posts. Each keeps the fields that
+fit its role, while an optional project reference creates the relationship between them.
+
+<CardGrid>
+  <Card title="Projects show the outcome">
+    A concise index leads to full case studies with status, year, links, and
+    enough room to explain the work properly.
+  </Card>
+  <Card title="Posts preserve the process">
+    Articles can stand alone in the blog or appear as related writing at the end
+    of a project page.
+  </Card>
+</CardGrid>
+
+The relationship remains content-owned. There is no parallel lookup table to maintain and no
+client-side request to join the records. Astro validates the reference during the build, and the
+project route collects its related posts before rendering the page.
+
+## An editorial system built from restraint
+
+The visual direction borrows from independent studio journals: generous white space, typographic
+contrast, thin rules, and lists that reveal structure without turning every entry into a card. The
+interface stays quiet so that project names, descriptions, and article titles do the work.
+
+Tailwind CSS utilities express the layout directly in the Astro components. Typography styles are
+reserved for long-form MDX, while the rest of the interface uses the same tokens for color,
+spacing, and responsive behavior. Light and dark themes share that structure rather than behaving
+like separate designs.
+
+The custom aster mark follows the same principle. Its radial flower shape is distinctive at display
+sizes, with a simplified version for the favicon where fine detail would disappear.
+
+## Configuration has one home
+
+The values a new site is expected to change live together in `src/data/config.ts`: identity, URLs,
+navigation, footer links, blog pagination, and the number of related posts. Content schemas and
+routes stay focused on validation and rendering instead of becoming a second configuration layer.
+
+<FileTree>
+
+- src
+  - content
+    - projects
+    - blog
+  - data
+    - config.ts
+  - pages
+    - projects
+    - blog
+- public
+  - images
+    - aster-mark.svg
+
+</FileTree>
+
+The result is a template that is useful immediately but straightforward to make personal. Replace
+the example collections, update one configuration file, and the project index, related posts,
+pagination, sitemap, and full-content RSS feed continue to work from the same source of truth.
+
+## Components support the writing
+
+`@prosefly/astro-components` supplies the richer structures that Markdown alone cannot express:
+callouts, cards, steps, tabs, file trees, and media. They remain optional within MDX, so an ordinary
+article can stay ordinary and a technical case study can introduce more structure only where it
+helps the reader.
+
+Aster keeps that enhancement server-first. Static HTML is the default, and client scripts are
+limited to components that genuinely need interaction. The site remains fast to build, portable to
+static hosting, and readable even when an article uses none of the shared components.
+
+[Open the Aster demo](https://astro-template-aster.prosefly.dev/) or [browse the source](https://github.com/prosefly/astro-template-aster).
