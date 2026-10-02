@@ -1,0 +1,66 @@
+@import '@fontsource-variable/geist';
+@import '@fontsource/instrument-serif';
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
+@theme inline {
+  --font-sans: 'Geist Variable', 'SF Pro Text', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --color-canvas: var(--canvas);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-rule: var(--rule);
+}
+
+:root {
+  --canvas: #090909;
+  --ink: #f0efec;
+  --muted: #aaa8a4;
+  --faint: #696865;
+  --rule: #292927;
+  --pf-text-strong: var(--ink);
+  --pf-text: var(--muted);
+  --pf-text-muted: var(--faint);
+  --pf-background: var(--canvas);
+  --pf-surface: #111110;
+  --pf-accent: var(--ink);
+  --pf-accent-soft: #1b1b19;
+  --pf-accent-contrast: var(--canvas);
+  --pf-info: var(--ink);
+  --pf-info-soft: color-mix(in srgb, var(--ink) 7%, var(--canvas));
+  --pf-info-ink: var(--ink);
+  --pf-info-contrast: var(--canvas);
+  --pf-success: var(--ink);
+  --pf-success-soft: color-mix(in srgb, var(--ink) 7%, var(--canvas));
+  --pf-success-ink: var(--ink);
+  --pf-warning: var(--ink);
+  --pf-warning-soft: color-mix(in srgb, var(--ink) 7%, var(--canvas));
+  --pf-warning-ink: var(--ink);
+  --pf-border-subtle: var(--rule);
+  --pf-border-muted: #3a3936;
+  --pf-font-sans: 'Geist Variable', 'SF Pro Text', system-ui, sans-serif;
+  --pf-font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --pf-radius-sm: 0;
+  --pf-radius-md: 0;
+  --pf-radius-lg: 0;
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --canvas: #f4f3ef;
+  --ink: #181817;
+  --muted: #5f5e5a;
+  --faint: #888681;
+  --rule: #d9d7d1;
+  --pf-surface: #ebe9e3;
+  --pf-accent-soft: #e2e0d9;
+  --pf-accent-contrast: #f4f3ef;
+  --pf-border-muted: #c8c5be;
+  color-scheme: light;
+}

@@ -1,0 +1,30 @@
+---
+import { config } from '@/data/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title={`Page not found — ${config.site.name}`}
+  description="The requested page could not be found."
+>
+  <section class="mx-auto w-[min(calc(100%-2rem),48.75rem)] pt-18 pb-20 min-[761px]:w-[min(calc(100%-3rem),48.75rem)] min-[761px]:pt-16">
+    <p class="mb-3 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase">
+      404
+    </p>
+    <h1 class="m-0 font-serif text-[clamp(2.5rem,4vw,2.75rem)] leading-[1.08] font-normal tracking-[-0.025em] [&_em]:font-normal [&_em]:text-muted">
+      Nothing here,
+      <br />
+      <em>for now.</em>
+    </h1>
+    <p class="mt-8 max-w-2xl text-muted">
+      The page may have moved or never existed.{' '}
+      <a
+        class="underline decoration-faint underline-offset-[0.22em] transition-colors duration-150 hover:decoration-ink motion-reduce:transition-none"
+        href="/"
+      >
+        Return home
+      </a>
+      .
+    </p>
+  </section>
+</BaseLayout>

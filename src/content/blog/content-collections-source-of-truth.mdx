@@ -1,0 +1,122 @@
+---
+title: Keeping Documentation in Astro Collections
+description: A practical boundary between durable content and a replaceable documentation shell.
+publishedAt: 2026-08-26
+category: Architecture
+tags:
+  - Astro
+  - Content
+  - MDX
+project: lotus
+---
+
+import {
+  Callout,
+  Card,
+  CardGrid,
+  FileTree,
+  Steps,
+} from '@prosefly/astro-components'
+
+A documentation theme makes dozens of useful decisions: where navigation lives, how search opens,
+what an active page looks like, and how a long article behaves on a small screen. Those decisions
+should be easy to adopt. They should not become the only place the documentation can exist.
+
+Prosefly themes keep source documents in Astro content collections. The theme generates routes,
+navigation, search metadata, and page chrome around them, but Markdown and MDX remain ordinary
+project files.
+
+<FileTree>
+
+- src
+  - content
+    - docs
+      - index.mdx
+      - installation.mdx
+      - configuration
+        - navigation.mdx
+  - content.config.ts
+- astro.config.ts
+- theme.config.json
+
+</FileTree>
+
+## Give each layer one kind of decision
+
+The arrangement works because three files answer three different questions.
+
+<CardGrid>
+  <Card title="Content collection">
+    What fields make a valid page, where the source files live, and how Astro
+    loads them.
+  </Card>
+  <Card title="Theme configuration">
+    What the product is called, how navigation is grouped, which search provider
+    is active, and how the shell is branded.
+  </Card>
+  <Card title="Markdown and MDX">
+    What the reader needs to know, including prose, examples, and structured
+    content components.
+  </Card>
+</CardGrid>
+
+In Lotus, the collection boundary is explicit:
+
+```ts title="src/content.config.ts"
+import { defineCollection } from 'astro:content'
+import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content'
+
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema(),
+})
+
+export const collections = { docs }
+```
+
+The schema catches invalid frontmatter early. The loader gives the theme a predictable set of
+entries. Neither needs to hide the original document.
+
+## Let configuration describe the shell
+
+`theme.config.json` contains product identity and navigation because those values describe how the
+site presents the collection. A page title and description belong to the page; the site's logo,
+sidebar groups, and social links do not.
+
+This separation keeps reviews legible. A writing change looks like a writing change. A navigation
+reorganization appears in one configuration diff. A visual change stays in tokens or component
+overrides instead of being mixed into dozens of MDX files.
+
+<Callout type="note" title="Own the durable part">
+  A theme can change. The content, URLs, and information architecture should be
+  able to survive that change with as little rewriting as possible.
+</Callout>
+
+## Test the boundary with a migration exercise
+
+The simplest way to evaluate content ownership is to imagine replacing the theme.
+
+<Steps>
+
+1. Point a new Astro collection at the existing `src/content/docs/` directory.
+2. Map the existing frontmatter fields into the new shell.
+3. Recreate navigation from configuration or directory structure.
+4. Render the same Markdown and MDX through the new layouts.
+
+</Steps>
+
+Some component imports may need mapping, and shell configuration will certainly change. The article
+bodies, examples, headings, and Git history should not need to be exported from anywhere.
+
+## Portability still needs a contract
+
+Keeping files in the repository does not make content automatically portable. A theme can still
+leak implementation details through proprietary frontmatter, layout imports, or components that
+only work inside one CSS environment.
+
+That is why Prosefly pairs collections with a shared component package and semantic design tokens.
+The collection preserves the source; the shared author-facing contract reduces the amount that must
+change when the surrounding shell does.
+
+The goal is not a perfectly theme-neutral document. It is a clean, visible boundary where the
+product-specific choices begin.

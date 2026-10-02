@@ -1,0 +1,100 @@
+---
+title: One Component Layer, Two Astro Themes
+description: How Lotus and Dahlia share an MDX contract without collapsing into one configurable theme.
+publishedAt: 2026-09-22
+category: Architecture
+tags:
+  - Astro
+  - Themes
+  - Design systems
+project: astro-components
+---
+
+import { Callout, Card, CardGrid, FileTree } from '@prosefly/astro-components'
+
+Lotus and Dahlia solve the same broad problem: turn an Astro content collection into a complete
+documentation site. Authors should not have to relearn how to write a callout or set of tabs when
+they move between them. Readers, however, should be able to feel that the themes make different
+choices.
+
+That tension led to a simple boundary: share the author-facing component layer, but let each theme
+own its shell and visual system.
+
+## Extract the stable vocabulary
+
+The shared `@prosefly/astro-components` package owns structures whose meaning does not change with
+the page layout.
+
+<CardGrid>
+  <Card title="Shared contract">
+    MDX component APIs, accessible interaction behavior, Markdown transforms,
+    icon loading, and semantic style hooks.
+  </Card>
+  <Card title="Theme-owned expression">
+    Typography, spacing, color, header, sidebar, table of contents, search UI,
+    and responsive page composition.
+  </Card>
+</CardGrid>
+
+A tab still represents parallel choices in either theme. A callout still interrupts the prose with
+important context. Those semantics belong with the content. How much space they occupy and how they
+fit the surrounding article belong with the theme.
+
+<FileTree>
+
+- @prosefly/astro-components
+  - MDX components
+  - client behavior
+  - Markdown transforms
+  - semantic CSS properties
+- @prosefly/astro-theme-lotus
+  - Lotus shell
+  - Lotus tokens
+  - Lotus configuration
+- @prosefly/astro-theme-dahlia
+  - Dahlia shell
+  - Dahlia tokens
+  - Dahlia configuration
+
+</FileTree>
+
+## Keep the dependency direction visible
+
+Both themes depend on the component package. The component package does not import either theme,
+inspect a theme name, or carry theme-specific branches.
+
+That direction matters more than where the files live. If the shared layer needs to know whether it
+is inside Lotus or Dahlia, it has stopped being shared infrastructure and become a hidden base
+theme.
+
+Instead, components expose semantic `--pf-*` properties with useful fallbacks. Each theme maps
+those roles into its own tokens. A standalone site such as Aster can do the same without adopting a
+documentation shell.
+
+<Callout type="note" title="The practical result">
+  An article can move between Lotus, Dahlia, and Aster without rewriting every
+  callout, card, tab, step, or file tree.
+</Callout>
+
+## Why not build one theme with two presets?
+
+Presets work when the difference is mostly color and typography. Lotus and Dahlia differ in page
+composition, navigation density, spacing, and the relationship between the article and its
+surrounding controls.
+
+Putting both behind one tree of conditions would make every shell change answer two questions:
+what does this feature do, and which preset is currently active? Separate theme packages keep that
+reasoning local. Shared content behavior is still fixed once in the component layer.
+
+The cost is that some shell logic exists twice. That is acceptable when the duplicated code
+represents genuinely different products rather than an overlooked abstraction.
+
+## Use portability as a design test
+
+Before adding a feature to the shared layer, we ask whether its meaning belongs to the document or
+to the shell. Before adding a theme-specific component, we ask whether an author would expect the
+same content to work elsewhere.
+
+This does not produce a perfectly generic component library. It produces a focused one with a clear
+consumer: technical content written in Astro and MDX. That narrower contract is what lets the two
+themes keep distinct identities without forking the writing experience.

@@ -1,0 +1,87 @@
+---
+title: Building Dahlia Without Forking Lotus
+description: What stayed shared—and what deliberately changed—when Prosefly added a second documentation theme.
+publishedAt: 2026-09-15
+category: Design
+tags:
+  - Astro
+  - Documentation
+  - Themes
+project: dahlia
+---
+
+import { Callout, Card, CardGrid, Steps } from '@prosefly/astro-components'
+
+The easiest way to create a second theme is to copy the first one, change the colors, and promise to
+clean up the duplication later. That works until a shared feature changes. Then every improvement
+has to be rediscovered in both codebases, while the two themes slowly develop incompatible content
+APIs.
+
+Dahlia took a different path. It shares the content vocabulary and infrastructure that authors rely
+on, but owns the parts that make a theme feel like a product: page composition, navigation rhythm,
+typography, spacing, and visual hierarchy.
+
+## Begin with the reason for a second theme
+
+Lotus is a broad documentation shell with compact navigation and a configurable product surface.
+Dahlia explores a quieter, content-first composition: persistent navigation on the left, a centered
+article, and a table of contents that supports the page without enclosing it in heavier chrome.
+
+If the difference had been only an accent color, a preset would have been enough. The second package
+became worthwhile because the layout and reading rhythm were meaningfully different.
+
+<CardGrid>
+  <Card title="Keep shared">
+    The docs collection contract, MDX component APIs, icon loading, Markdown
+    transforms, code behavior, and accessible interactive primitives.
+  </Card>
+  <Card title="Let Dahlia own">
+    Header and sidebar composition, article width, table of contents, search
+    presentation, responsive transitions, typography, and palette.
+  </Card>
+</CardGrid>
+
+## Move the author contract below both themes
+
+Callouts, cards, steps, tabs, accordions, file trees, and galleries moved into
+`@prosefly/astro-components`. The package exposes semantic CSS properties rather than importing a
+theme stylesheet.
+
+Both themes depend on that package and map the same roles into their own tokens. The dependency only
+points one way: shared components never branch on a theme name.
+
+<Callout type="note" title="A useful constraint">
+  If a shared component needs to know which theme is rendering it, the boundary
+  is probably in the wrong place.
+</Callout>
+
+## Rebuild the shell from its own priorities
+
+Rather than copying Lotus layouts and deleting pieces, Dahlia assembled its page around the reading
+experience it wanted.
+
+<Steps>
+
+1. Establish the article measure and vertical rhythm.
+2. Place navigation and the table of contents around that article.
+3. Add mobile transitions that preserve the same information hierarchy.
+4. Map shared content components into Dahlia's tokens.
+5. Add search, i18n, code rendering, Mermaid, and theme controls as parts of the shell.
+
+</Steps>
+
+This order made the visual difference structural. It also made duplicated shell code honest: Lotus
+and Dahlia each own their navigation because their navigation is not the same component wearing a
+different class name.
+
+## Test portability with real documents
+
+A shared contract matters only if existing content can use it. Guides containing callouts, tabs,
+steps, code examples, and file trees were rendered in both themes. Problems that appeared in both
+belonged to the shared package. Problems caused by one page composition stayed with that theme.
+
+The result is not zero duplication. It is duplication at the product layer and reuse at the author
+layer—a trade that keeps each theme understandable while preserving the durable content.
+
+Dahlia can now evolve as its own design without asking authors to rewrite the documentation that
+already works in Lotus.

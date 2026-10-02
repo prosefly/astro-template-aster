@@ -1,0 +1,96 @@
+---
+title: Astro OpenAPI
+description: OpenAPI references modeled as Astro content
+year: 2026
+status: Private package
+tags:
+  - Astro
+  - OpenAPI
+  - Content collections
+website: https://prosefly.dev/docs/astro-openapi/
+featured: true
+order: 10
+---
+
+import {
+  Badge,
+  Callout,
+  Card,
+  CardGrid,
+  Steps,
+} from '@prosefly/astro-components'
+
+<Badge color="warning">Private package</Badge>
+
+Astro OpenAPI turns one or more OpenAPI documents into a reference model that Astro sites can load,
+route, and render alongside hand-written documentation. It provides source configuration, a
+content loader and schema, generated navigation, request examples, and focused components for
+authentication, request bodies, responses, webhooks, and schema details.
+
+The project was built for Prosefly documentation sites, but its central decision is deliberately
+framework-like: the package produces content and UI primitives without claiming ownership of the
+site's routes.
+
+## From specification to content model
+
+<Steps>
+
+1. **Resolve the configured sources.**
+
+   A project can load one local OpenAPI file or several named sources with distinct base paths.
+
+2. **Normalize the document.**
+
+   The loader creates an introduction, operation entries, webhook entries, security data, request
+   examples, and navigation.
+
+3. **Bound recursive schemas.**
+
+   Depth, array, object, and total-node budgets keep dereferenced schema data JSON-safe inside
+   Astro's content layer.
+
+4. **Render inside the owning site.**
+
+   The theme chooses URLs and page composition, then combines the model with the exported reference
+   components.
+
+</Steps>
+
+## A loader, not a router
+
+Route ownership is the most important boundary in the package. An operation entry contains the data
+needed to render an endpoint, but it does not decide whether that endpoint lives at `/api/users/`,
+`/reference/users/`, or inside a product-specific documentation tree.
+
+<CardGrid>
+  <Card title="Astro OpenAPI owns">
+    Source resolution, normalization, schemas, navigation data, request
+    examples, and API-specific components.
+  </Card>
+  <Card title="The consuming site owns">
+    Routes, layouts, surrounding navigation, visual identity, and how API pages
+    sit beside guides.
+  </Card>
+</CardGrid>
+
+That separation lets Lotus integrate a complete reference while leaving another Astro project free
+to render the same normalized data differently.
+
+## Designed for real specifications
+
+Large specifications frequently include recursive references, multiple media types, several
+authentication schemes, and examples that are useful in more than one programming language. Astro
+OpenAPI treats those as first-class concerns rather than flattening every endpoint into a generic
+Markdown page.
+
+Schema budgets are configurable for unusually large documents. Named sources support products with
+separate APIs, and generated snippets cover cURL, HTTP, JavaScript, Python, Go, Java, PHP, and Ruby.
+The component layer keeps request and response details interactive without moving the whole page to
+the client.
+
+<Callout type="note" title="Access">
+  Astro OpenAPI is distributed through GitHub Packages and is available to
+  Prosefly sponsors with package access.
+</Callout>
+
+[Read the Astro OpenAPI documentation](https://prosefly.dev/docs/astro-openapi/), [view it inside the Lotus reference](https://astro-theme-lotus.prosefly.dev/api/), or [read the implementation notes](/blog/openapi-as-astro-content/).

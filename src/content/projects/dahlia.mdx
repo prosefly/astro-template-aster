@@ -1,0 +1,83 @@
+---
+title: Astro Theme Dahlia
+description: A minimal, content-first documentation theme
+year: 2026
+status: Open source
+tags:
+  - Astro
+  - Documentation
+  - MDX
+website: https://astro-theme-dahlia.prosefly.dev/
+repository: https://github.com/prosefly/astro-theme-dahlia
+featured: true
+order: 20
+---
+
+import {
+  Badge,
+  Callout,
+  Card,
+  CardGrid,
+  Steps,
+} from '@prosefly/astro-components'
+
+<Badge color="accent">Documentation theme</Badge>
+
+Dahlia is an installable documentation theme for Astro 7. It provides the features expected from a
+modern docs site—routing, navigation, search, internationalization, MDX components, Expressive
+Code, Mermaid, and dark mode—but arranges them around a quieter reading experience.
+
+It is not a recolored Lotus. Dahlia exists to test a stronger idea: two themes can share an author
+contract and still make meaningfully different decisions about layout, density, and visual rhythm.
+
+## Familiar content, different composition
+
+Dahlia uses a persistent left navigation, a centered article column, and a sticky table of contents
+on wider screens. The page chrome stays restrained so long guides and references remain the visual
+center of the product.
+
+<CardGrid>
+  <Card title="Content first">
+    The article column sets the rhythm. Navigation and metadata support it
+    without competing for attention.
+  </Card>
+  <Card title="Complete shell">
+    Search, i18n-aware routes, code rendering, Mermaid, mobile navigation, and
+    dark mode are included rather than left to each starter.
+  </Card>
+  <Card title="Shared vocabulary">
+    The same callouts, cards, tabs, steps, and file trees used in Lotus work in
+    Dahlia without changing the MDX.
+  </Card>
+</CardGrid>
+
+## Shared infrastructure without a shared identity
+
+The theme consumes `@prosefly/astro-components` and follows the same broad collection contract as
+Lotus. Dahlia then maps the shared semantic tokens into its own palette and owns its navigation
+shell, typography, spacing, and responsive composition.
+
+This division avoids two common outcomes: duplicating every interactive component in a second
+theme, or building one highly conditional base theme whose internals are difficult to reason about.
+
+<Callout type="note" title="The boundary is visible in the dependency graph">
+  Dahlia depends on the shared component package. The component package has no
+  Dahlia-specific branch, stylesheet, or import.
+</Callout>
+
+## A maintained path to a working site
+
+<Steps>
+
+1. Create a project from the Dahlia starter.
+2. Describe the product and navigation in `theme.config.json`.
+3. Add documents to the Astro `docs` collection.
+4. Customize the semantic tokens or override a shell component only when the product needs it.
+
+</Steps>
+
+The maintained starter is useful here: it demonstrates the intended package boundaries without
+making the starter itself the framework. Existing Astro sites can install and register Dahlia
+directly.
+
+[Read the Dahlia documentation](https://astro-theme-dahlia.prosefly.dev/docs/overview/), [learn how it was separated from Lotus](/blog/building-dahlia-without-forking-lotus/), or [browse the source](https://github.com/prosefly/astro-theme-dahlia).

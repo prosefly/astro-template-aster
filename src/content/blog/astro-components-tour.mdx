@@ -1,0 +1,213 @@
+---
+title: A Tour of Prosefly's Astro Components
+description: A practical tour of every public component, rendered together in one real MDX article.
+publishedAt: 2026-10-01
+category: Guide
+tags:
+  - Astro
+  - MDX
+  - Components
+project: astro-components
+---
+
+import {
+  AccordionItem,
+  Accordions,
+  AudioPlayer,
+  Badge,
+  Callout,
+  Card,
+  CardGrid,
+  Embed,
+  FileTree,
+  Icon,
+  ImageGallery,
+  Steps,
+  TabItem,
+  Tabs,
+} from '@prosefly/astro-components'
+
+`@prosefly/astro-components` is the shared MDX layer used by Lotus and Dahlia. It exists because
+technical articles regularly need more structure than Markdown provides, but that structure should
+not tie the writing to one documentation theme.
+
+This page renders every public component from version 0.7.1 inside Aster. It is both a tour and a
+portability test: Aster supplies its own layouts, typography, colors, and spacing while the package
+supplies content structure and focused interactions.
+
+<Callout type="note" title="One integration">
+  Aster registers `proseflyComponents()` once. The integration supplies shared
+  Markdown transforms, gallery assets, and Iconify preloading.
+</Callout>
+
+The examples stay inside one article on purpose. A component can look convincing in an isolated
+catalog and still feel too heavy when surrounded by real headings, paragraphs, and code. Seeing the
+whole set in sequence makes the intended hierarchy clearer.
+
+## Badges, icons, and callouts
+
+Badges carry short metadata without interrupting a paragraph:
+
+<Badge>Astro 7</Badge> <Badge color="accent">MDX</Badge>
+<Badge color="success">Stable</Badge> <Badge color="warning">Private</Badge>
+
+Icons can be decorative or carry an accessible title. <Icon name="lucide:sparkles" /> This icon is
+decorative; <Icon name="lucide:triangle-alert" title="Warning" /> this one announces its meaning.
+
+<Callout type="tip" title="Use the lightest component that explains the idea">
+  A badge labels, an icon cues, and a callout interrupts. Choosing between them
+  is part of writing the page.
+</Callout>
+
+## Cards and steps
+
+<CardGrid>
+  <Card
+    icon="lucide:panels-top-left"
+    title="Lotus"
+    href="https://astro-theme-lotus.prosefly.dev/"
+    external
+  >
+    A complete documentation shell with navigation, search, and configurable
+    design tokens.
+  </Card>
+  <Card
+    icon="lucide:flower-2"
+    title="Dahlia"
+    href="https://astro-theme-dahlia.prosefly.dev/"
+    external
+  >
+    A minimal, content-first theme built on the same component layer.
+  </Card>
+</CardGrid>
+
+<Steps>
+
+1. **Install the package.**
+
+   ```sh
+   pnpm add @prosefly/astro-components
+   ```
+
+2. **Register the integration.**
+
+   Add `proseflyComponents()` to `astro.config.mjs`.
+
+3. **Import components in MDX.**
+
+   Keep ordinary prose in Markdown and reach for components only when structure helps.
+
+</Steps>
+
+## Tabs and accordions
+
+Tabs work well when several commands complete the same task.
+
+<Tabs copy syncKey="install-components">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    <pre>
+      <code>pnpm add @prosefly/astro-components</code>
+    </pre>
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    <pre>
+      <code>npm install @prosefly/astro-components</code>
+    </pre>
+  </TabItem>
+</Tabs>
+
+Accordions keep optional answers available without lengthening the main path.
+
+<Accordions>
+  <AccordionItem title="Can the components work without Lotus or Dahlia?">
+    Yes. Register the shared integration and map the semantic Prosefly CSS
+    properties to the surrounding site's design tokens.
+  </AccordionItem>
+  <AccordionItem title="Do Prosefly themes need extra setup?">
+    No. Lotus and Dahlia already register the integration and expose the shared
+    components to their MDX content.
+  </AccordionItem>
+</Accordions>
+
+## File trees
+
+`FileTree` turns a single Markdown list into an expandable project map.
+
+<FileTree>
+
+- src
+  - content
+    - blog
+      - **astro-components-tour.mdx**
+    - projects
+  - content.config.ts
+  - pages
+- astro.config.mjs
+- package.json
+
+</FileTree>
+
+## Image galleries
+
+`ImageGallery` keeps related screenshots together and owns its responsive browser behavior.
+
+<ImageGallery>
+  ![Lotus documentation theme shown in light and dark
+  modes](https://raw.githubusercontent.com/prosefly/astro-theme-lotus/main/.github/assets/light-dark.png)
+  ![Dahlia documentation theme social
+  preview](https://raw.githubusercontent.com/prosefly/astro-theme-dahlia/main/public/images/og.jpg)
+</ImageGallery>
+
+## Rich links and audio
+
+Supplying complete metadata lets `Embed` render a link card without fetching the destination
+during the build.
+
+<Embed
+  kind="link"
+  url="https://astro-theme-lotus.prosefly.dev/"
+  title="Astro Theme Lotus"
+  description="An installable documentation theme for Astro v7, Tailwind CSS v4, and MDX."
+  image="https://astro-theme-lotus.prosefly.dev/images/og.png"
+  siteName="Prosefly"
+/>
+
+`AudioPlayer` enhances the native audio element with metadata, seeking, playback speed, mute, and
+Media Session support where the browser provides it.
+
+<AudioPlayer
+  album="NASA mission audio"
+  title="STS-133 Mission Status Briefing"
+  artist="NASA"
+  duration={666}
+  src="https://shikwasa.js.org/assets/STS-133_FD11_Mission_Status_Briefing.mp3"
+/>
+
+## Choosing the smallest useful component
+
+The package is not meant to replace ordinary Markdown. Most sentences, lists, links, images, and
+code blocks should remain native content. A component earns its place when it adds a relationship or
+behavior that Markdown cannot express clearly.
+
+<CardGrid>
+  <Card title="Label">
+    Use a badge for compact status or category metadata that belongs beside the
+    prose.
+  </Card>
+  <Card title="Interrupt">
+    Use a callout when a note, warning, or recommendation should change how the
+    reader interprets the surrounding section.
+  </Card>
+  <Card title="Organize">
+    Use cards, steps, tabs, accordions, or a file tree when the relationship
+    between several pieces is the point.
+  </Card>
+  <Card title="Enhance media">
+    Use a gallery, embed, or audio player when native media needs grouping,
+    metadata, or focused controls.
+  </Card>
+</CardGrid>
+
+That restraint keeps an MDX page readable in source form and makes the component API easier to
+maintain. The important boundary is unchanged across every example: components supply structure and
+behavior, while the host site supplies the visual system.

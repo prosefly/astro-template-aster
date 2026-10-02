@@ -1,0 +1,101 @@
+---
+title: Defaults With an Exit
+description: Good theme defaults shorten the first week without limiting what the site can become.
+publishedAt: 2026-08-14
+category: Design
+tags:
+  - Documentation
+  - Design systems
+  - Theming
+project: prosefly
+---
+
+import { Callout, Card, CardGrid, Steps } from '@prosefly/astro-components'
+
+A documentation theme earns its place by resolving repetitive work: page structure, navigation,
+search, readable prose, responsive behavior, and accessible interaction states. A new project
+should feel coherent before it has a custom design system.
+
+The same theme becomes a liability when those early decisions harden into permanent constraints.
+Real products eventually need their own type, color, density, navigation, and component behavior.
+The question is not whether a theme has opinions. It is whether the product can outgrow them without
+rewriting its content.
+
+## Start complete
+
+Defaults are most useful when they form a system rather than a collection of placeholders.
+
+<CardGrid>
+  <Card title="A readable page">
+    Type scale, line length, heading rhythm, code treatment, and focus states
+    should work together on day one.
+  </Card>
+  <Card title="A navigable site">
+    Desktop and mobile navigation, search, current-page state, and table of
+    contents should already agree about the information architecture.
+  </Card>
+  <Card title="A responsive shell">
+    The theme should decide how those parts collapse before every project
+    invents a different set of breakpoints.
+  </Card>
+</CardGrid>
+
+An incomplete default shifts design work back to the adopter while still asking them to learn the
+theme's abstractions. A considered default lets the team begin with content and discover which parts
+actually need to become distinctive.
+
+## Put exits at meaningful layers
+
+Not every CSS value needs a configuration option. Useful escape routes correspond to decisions a
+product team can name.
+
+<Steps>
+
+1. **Tokens change the visual language.**
+
+   Accent, neutrals, fonts, radius, spacing roles, and status colors establish identity without
+   changing component structure.
+
+2. **Configuration changes product behavior.**
+
+   Navigation, search, locale, social links, and page metadata belong to the site rather than the
+   theme's source code.
+
+3. **Component overrides change composition.**
+
+   When the product genuinely needs different navigation or footer behavior, a documented component
+   boundary is clearer than a growing collection of selectors.
+
+4. **Content ownership makes replacement possible.**
+
+   Markdown, MDX, and Astro collections remain useful even if the shell is eventually replaced.
+
+</Steps>
+
+<Callout type="tip" title="A useful test">
+  Can a team begin with the theme, grow into its own visual system, and keep the
+  same content throughout the transition?
+</Callout>
+
+## Avoid the other extreme
+
+An exit does not mean exposing every internal variable. A configuration surface with hundreds of
+unrelated values is another kind of lock-in: adopters must understand the implementation before
+they can make a safe change.
+
+Semantic choices are more durable. “Accent color” expresses intent; “third link hover border”
+describes an accident of the current markup. A small set of roles can be applied consistently and
+survive component refactors.
+
+The same rule applies to overrides. Replacing a search control is a meaningful boundary. Overriding
+the wrapper around every icon usually means the underlying component contract is missing the right
+token or prop.
+
+## The exit makes the default more trustworthy
+
+Prosefly themes expose configuration, semantic tokens, shared content components, and selected
+shell overrides. Most projects will not replace all of them. That is precisely why the boundaries
+matter: teams can adopt the complete default without betting that their needs will never change.
+
+A strong default should feel like a useful starting point, not a decision the project is afraid to
+revisit.

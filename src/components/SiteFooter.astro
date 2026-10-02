@@ -1,0 +1,25 @@
+---
+import { config } from '@/data/config'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="mx-auto flex min-h-28 w-[min(calc(100%-2rem),83rem)] flex-col items-start justify-center gap-8 border-t border-rule py-8 text-xs text-faint sm:w-[min(calc(100%-6rem),83rem)] sm:flex-row sm:items-center sm:justify-between sm:py-0">
+  <p class="m-0 flex flex-col items-start gap-1 text-ink sm:flex-row sm:items-center sm:gap-5">
+    {config.site.name}
+    <em class="font-serif text-[0.95rem] text-muted">
+      {config.footer.tagline}
+    </em>
+  </p>
+  <nav class="flex items-center gap-5" aria-label="Footer navigation">
+    {config.navigation.footer.map(({ href, label }) => (
+      <a
+        class="hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink"
+        href={href}
+      >
+        {label}
+      </a>
+    ))}
+    <span>© {year}</span>
+  </nav>
+</footer>

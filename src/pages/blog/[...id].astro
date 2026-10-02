@@ -1,0 +1,75 @@
+---
+import { render, type CollectionEntry } from 'astro:content'
+import ContentLayout from '@/layouts/ContentLayout.astro'
+import {
+  getPublishedBlogPosts,
+  getPublishedProjects,
+  type Project,
+} from '@/lib/content'
+import { formatDate } from '@/lib/format'
+
+export async function getStaticPaths() {
+  const [posts, projects] = await Promise.all([
+    getPublishedBlogPosts(),
+    getPublishedProjects(),
+  ])
+
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: {
+      post,
+      relatedProject: projects.find(({ id }) => id === post.data.project?.id),
+    },
+  }))
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>
+  relatedProject?: Project
+}
+
+const { post, relatedProject } = Astro.props
+const { Content } = await render(post)
+const postMeta = [
+  formatDate(post.data.publishedAt),
+  post.data.category,
+  ...post.data.tags,
+]
+---
+
+<ContentLayout
+  title={post.data.title}
+  description={post.data.description}
+  sectionHref="/blog/"
+  sectionLabel="Blog"
+  meta={postMeta}
+>
+  <Content />
+
+  <Fragment slot="after-content">
+    {relatedProject && (
+      <aside
+        class="border-t border-rule pt-10"
+        aria-labelledby="related-project"
+      >
+        <p class="m-0 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase">
+          Related project
+        </p>
+        <a
+          class="mt-3 grid gap-1 text-inherit no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink"
+          href={`/projects/${relatedProject.id}/`}
+        >
+          <span
+            class="font-serif text-[1.6rem] leading-tight text-ink transition-colors duration-150 hover:text-muted motion-reduce:transition-none"
+            id="related-project"
+          >
+            {relatedProject.data.title}
+          </span>
+          <span class="max-w-2xl text-sm text-muted">
+            {relatedProject.data.description}
+          </span>
+        </a>
+      </aside>
+    )}
+  </Fragment>
+</ContentLayout>

@@ -1,0 +1,97 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 128 128"
+  role="img"
+  aria-labelledby="aster-title aster-description"
+>
+  <title id="aster-title">Aster flower</title>
+  <desc id="aster-description">
+    A radial violet aster with layered petals and a golden center.
+  </desc>
+  <defs>
+    <linearGradient id="aster-outer" x1="0" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#6553a6" />
+      <stop offset="0.58" stop-color="#9684df" />
+      <stop offset="1" stop-color="#d9d2ff" />
+    </linearGradient>
+    <linearGradient id="aster-outer-alt" x1="0" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#57468f" />
+      <stop offset="0.62" stop-color="#8070ca" />
+      <stop offset="1" stop-color="#c7bdf7" />
+    </linearGradient>
+    <linearGradient id="aster-inner" x1="0" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#7562bc" />
+      <stop offset="1" stop-color="#eeeaff" />
+    </linearGradient>
+    <radialGradient id="aster-center" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#fff2b0" />
+      <stop offset="0.55" stop-color="#e9bd55" />
+      <stop offset="1" stop-color="#b77b1f" />
+    </radialGradient>
+    <path
+      id="aster-outer-petal"
+      d="M64 59C57.7 49.6 58.7 31.7 64 8c5.3 23.7 6.3 41.6 0 51Z"
+    />
+    <path
+      id="aster-inner-petal"
+      d="M64 64c-5.1-7.7-4.4-21.1 0-36 4.4 14.9 5.1 28.3 0 36Z"
+    />
+  </defs>
+
+  <g stroke="#493a80" stroke-width="0.75" stroke-linejoin="round">
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(22.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(45 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(67.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(90 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(112.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(135 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(157.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(180 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(202.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(225 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(247.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(270 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(292.5 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer)" transform="rotate(315 64 64)" />
+    <use href="#aster-outer-petal" fill="url(#aster-outer-alt)" transform="rotate(337.5 64 64)" />
+  </g>
+
+  <g
+    fill="url(#aster-inner)"
+    stroke="#5b4996"
+    stroke-width="0.7"
+    stroke-linejoin="round"
+  >
+    <use href="#aster-inner-petal" transform="rotate(11.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(41.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(71.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(101.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(131.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(161.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(191.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(221.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(251.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(281.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(311.25 64 64)" />
+    <use href="#aster-inner-petal" transform="rotate(341.25 64 64)" />
+  </g>
+
+  <circle
+    cx="64"
+    cy="64"
+    r="16"
+    fill="url(#aster-center)"
+    stroke="#8d5d18"
+    stroke-width="1"
+  />
+  <g fill="#fff3b8" opacity="0.88">
+    <circle cx="59" cy="57" r="2" />
+    <circle cx="67" cy="56" r="1.8" />
+    <circle cx="72" cy="62" r="2" />
+    <circle cx="68" cy="69" r="1.8" />
+    <circle cx="60" cy="71" r="2" />
+    <circle cx="55" cy="64" r="1.8" />
+    <circle cx="64" cy="63" r="2.2" />
+  </g>
+</svg>

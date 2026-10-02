@@ -1,0 +1,116 @@
+---
+title: Treating OpenAPI as Astro Content
+description: Why Astro OpenAPI produces a bounded content model and leaves routes to the documentation site.
+publishedAt: 2026-09-08
+category: Development
+tags:
+  - Astro
+  - OpenAPI
+  - Content collections
+project: astro-openapi
+---
+
+import {
+  Badge,
+  Callout,
+  Card,
+  CardGrid,
+  Steps,
+} from '@prosefly/astro-components'
+
+<Badge color="warning">Private package</Badge>
+
+An OpenAPI document looks like content, but it rarely behaves like a normal article. Operations
+share schemas, schemas refer back to one another, security rules apply at several levels, and a
+single endpoint may carry examples for multiple request and response media types.
+
+Astro OpenAPI handles that complexity before the page template sees it. The package reads a
+specification and produces an introduction, operation entries, webhook entries, navigation, and a
+bounded schema model. The consuming Astro site decides what URLs to generate and how those entries
+fit beside the rest of its documentation.
+
+## Separate the reference model from the shell
+
+<Steps>
+
+1. **Resolve configured sources.**
+
+   Most sites load one local file. Products with several APIs can define named sources, each with a
+   distinct base path.
+
+2. **Normalize author input.**
+
+   OpenAPI objects become predictable operation and webhook entries with consistent method, path,
+   security, parameter, body, response, and example data.
+
+3. **Bound recursive structures.**
+
+   Configurable budgets limit schema depth, array items, object entries, and total nodes so the data
+   stored in Astro's content layer remains finite and JSON-safe.
+
+4. **Render inside the owning theme.**
+
+   The site chooses routes and layouts, then uses API-specific components for requests, responses,
+   security, schemas, snippets, and aside navigation.
+
+</Steps>
+
+The content collection setup remains recognizably Astro:
+
+```ts title="src/content.config.ts"
+import { defineCollection } from 'astro:content'
+import { openApiLoader, openApiSchema } from '@prosefly-pro/astro-openapi'
+
+const api = defineCollection({
+  loader: openApiLoader(),
+  schema: openApiSchema(),
+})
+
+export const collections = { api }
+```
+
+## Route ownership stays with the site
+
+Astro OpenAPI intentionally does not inject endpoint pages. A loader can serve several routing
+strategies; a router embedded in the package would make every consumer inherit the same URL and
+layout assumptions.
+
+<CardGrid>
+  <Card title="Loader responsibility">
+    Produce stable, validated entries and the navigation information needed to
+    find them.
+  </Card>
+  <Card title="Theme responsibility">
+    Decide where entries live, how they are grouped, and how the reference sits
+    beside guides and conceptual documentation.
+  </Card>
+</CardGrid>
+
+Lotus, for example, can place operation pages inside its existing documentation shell and combine
+generated API navigation with hand-authored groups. Another Astro site can choose a different base
+path or page composition without changing the loader.
+
+## Recursive schemas need an explicit budget
+
+Dereferencing an OpenAPI document can produce cycles or extremely large object graphs. Passing that
+graph directly to a content entry makes build time and output size depend on accidental details of
+the source specification.
+
+Astro OpenAPI stores a bounded display model instead. Defaults work for typical references, while
+projects with unusual schemas can adjust `maxDepth`, `maxArrayItems`, `maxObjectEntries`, and
+`maxNodes`. Hitting a budget is a visible product decision, not an unbounded traversal hidden inside
+a component render.
+
+<Callout type="tip" title="Why the boundary matters">
+  Normalization makes the reference predictable. Route ownership keeps it
+  composable. The schema budget keeps it safe to place in Astro's content layer.
+</Callout>
+
+## Components complete the model without owning the page
+
+The package exports focused components for authentication, request bodies, response examples,
+schemas, webhooks, code snippets, and reference asides. Interactive pieces enhance their local
+section; the surrounding document remains statically rendered.
+
+This is the useful end state: generated API reference behaves like one of the site's content
+sources, not like a separate application mounted beside the documentation.

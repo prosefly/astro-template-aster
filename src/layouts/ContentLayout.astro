@@ -1,0 +1,44 @@
+---
+import { Icon } from '@prosefly/astro-components'
+import { config } from '@/data/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+interface Props {
+  title: string
+  description: string
+  sectionHref: string
+  sectionLabel: string
+  meta: string[]
+}
+
+const { title, description, sectionHref, sectionLabel, meta } = Astro.props
+---
+
+<BaseLayout title={`${title} — ${config.site.name}`} description={description}>
+  <article class="mx-auto w-[min(calc(100%-2rem),48.75rem)] pb-24 sm:w-[min(calc(100%-3rem),48.75rem)]">
+    <header class="border-b border-rule pt-[clamp(5rem,9vw,8rem)] pb-12">
+      <a
+        class="mb-3 inline-flex items-center gap-1.5 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
+        href={sectionHref}
+      >
+        <Icon name="lucide:arrow-left" size="12" />
+        {sectionLabel}
+      </a>
+      <h1 class="m-0 font-serif text-[clamp(2.5rem,4vw,2.75rem)] leading-[1.08] font-normal tracking-[-0.025em]">
+        {title}
+      </h1>
+      <p class="mt-6 max-w-2xl text-[1.05rem] text-muted">{description}</p>
+      <div class="mt-8 flex flex-wrap gap-x-4 gap-y-2.5 font-mono text-[0.7rem] tracking-[0.05em] text-faint uppercase">
+        {meta.map((item) => (
+          <span>{item}</span>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose max-w-2xl py-14 text-muted [--tw-prose-body:var(--muted)] [--tw-prose-bold:var(--ink)] [--tw-prose-bullets:var(--faint)] [--tw-prose-captions:var(--faint)] [--tw-prose-code:var(--ink)] [--tw-prose-counters:var(--faint)] [--tw-prose-headings:var(--ink)] [--tw-prose-hr:var(--rule)] [--tw-prose-lead:var(--muted)] [--tw-prose-links:var(--ink)] [--tw-prose-pre-bg:var(--pf-surface)] [--tw-prose-pre-code:var(--ink)] [--tw-prose-quote-borders:var(--rule)] [--tw-prose-quotes:var(--muted)] [--tw-prose-td-borders:var(--rule)] [--tw-prose-th-borders:var(--rule)] prose-headings:font-serif prose-headings:font-normal prose-headings:tracking-[-0.015em] prose-h2:mt-14 prose-h2:mb-4 prose-h2:text-[2rem] prose-h3:mt-10 prose-h3:mb-3 prose-h3:text-2xl prose-a:decoration-faint prose-a:underline-offset-[0.2em] prose-code:font-mono prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none prose-blockquote:font-serif prose-blockquote:text-[1.35rem] prose-blockquote:font-normal prose-blockquote:italic hover:prose-a:decoration-ink">
+      <slot />
+    </div>
+
+    <slot name="after-content" />
+  </article>
+</BaseLayout>

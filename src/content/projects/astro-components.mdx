@@ -1,0 +1,100 @@
+---
+title: Astro Components
+description: Reusable Astro components for MDX content
+year: 2026
+status: Open source
+tags:
+  - Astro
+  - MDX
+  - Components
+website: https://prosefly.dev/docs/astro-components/
+repository: https://github.com/prosefly/astro-components
+featured: true
+order: 40
+---
+
+import {
+  Badge,
+  Callout,
+  Card,
+  CardGrid,
+  FileTree,
+} from '@prosefly/astro-components'
+
+<Badge color="success">Published package</Badge>
+
+`@prosefly/astro-components` grew out of work on Lotus and Dahlia. Both themes needed the same
+author-facing vocabulary—callouts, cards, steps, tabs, accordions, file trees, and media—but they
+needed to render that vocabulary inside different visual systems.
+
+Extracting the components into their own package made that distinction explicit. The package owns
+content structure and accessible behavior. The surrounding site owns typography, color, spacing,
+and page composition.
+
+## A practical MDX vocabulary
+
+The component set covers patterns that are awkward to express with Markdown alone but common in
+technical writing.
+
+<CardGrid>
+  <Card icon="lucide:layout-grid" title="Explain and compare">
+    Cards, badges, callouts, steps, tabs, and accordions organize related ideas
+    without turning an article into application UI.
+  </Card>
+  <Card icon="lucide:folder-tree" title="Show structure">
+    File trees and icons make project layouts and technical concepts easier to
+    scan.
+  </Card>
+  <Card icon="lucide:image" title="Handle media">
+    Image galleries, rich embeds, and the audio player provide focused
+    interactions where native prose needs help.
+  </Card>
+</CardGrid>
+
+Each component is an Astro component first. Authors import only what a page needs, combine it with
+ordinary Markdown, and keep the rendered output server-first. Client scripts are limited to the
+components that genuinely need interaction, such as tabs, accordions, galleries, and audio.
+
+## The integration handles the shared setup
+
+The package also exports a single Astro integration. It scans static icon usage, preloads Iconify
+collections, registers Markdown transforms, and supplies the assets used by components such as
+`ImageGallery`.
+
+<FileTree>
+
+- @prosefly/astro-components
+  - components
+    - Callout, Card, Steps, Tabs
+    - FileTree, ImageGallery, Embed
+  - integration
+    - icon preloading
+    - Markdown transforms
+  - markdown
+    - Mermaid
+    - package-manager tabs
+    - image galleries
+  - expressive-code
+    - code-header icons
+
+</FileTree>
+
+Advanced projects can import the Markdown and Expressive Code integrations independently, but the
+combined integration is the normal starting point.
+
+## The theme contract is semantic
+
+Components use `--pf-*` custom properties for roles such as text, surface, accent, border, status
+color, font, and radius. They do not import Lotus or Dahlia styles. A theme maps those roles to its
+own design tokens, while a standalone site can provide a small token layer of its own.
+
+<Callout type="tip" title="Aster is the standalone test">
+  This site is not built with a Prosefly documentation theme. It registers the
+  shared integration, maps the semantic properties to Aster's monochrome
+  palette, and uses the same components inside project and blog content.
+</Callout>
+
+That portability is the useful result of the package: an article can move between Lotus, Dahlia,
+and a custom Astro site without rewriting every structured element.
+
+[Read the component documentation](https://prosefly.dev/docs/astro-components/), [see every component rendered in Aster](/blog/astro-components-tour/), or [browse the source](https://github.com/prosefly/astro-components).

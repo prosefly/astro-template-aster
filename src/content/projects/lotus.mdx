@@ -1,0 +1,88 @@
+---
+title: Astro Theme Lotus
+description: A complete documentation shell for Astro
+year: 2026
+status: Open source
+tags:
+  - Astro
+  - Documentation
+  - Tailwind CSS
+website: https://astro-theme-lotus.prosefly.dev/
+repository: https://github.com/prosefly/astro-theme-lotus
+featured: true
+order: 30
+---
+
+import { Callout, Card, CardGrid, Steps } from '@prosefly/astro-components'
+
+Lotus is an installable documentation theme for Astro 7, Tailwind CSS 4, and MDX. It was built for
+projects that want a finished documentation experience without turning their entire Astro site
+into a fork of someone else's starter.
+
+The theme connects an Astro content collection to generated routes and supplies the surrounding
+shell: header, navigation, sidebar, table of contents, search, footer, theme controls, and responsive
+behavior.
+
+## The shell is the product
+
+<CardGrid>
+  <Card title="Find the right page">
+    Responsive navigation, generated sidebars, table of contents, Pagefind, and
+    DocSearch support help readers move through a growing documentation set.
+  </Card>
+  <Card title="Read technical content">
+    MDX, Expressive Code, Iconify icons, and the shared Prosefly components
+    cover the recurring needs of guides and references.
+  </Card>
+  <Card title="Adapt the identity">
+    Light, dark, and system modes sit on configurable accent, gray, radius, and
+    typography tokens.
+  </Card>
+</CardGrid>
+
+The shell remains mostly static. JavaScript is added where the interface needs state—mobile
+navigation, search, theme switching, or interactive content components—rather than hydrating the
+whole page.
+
+## Content collections define the boundary
+
+A Lotus project registers `docsLoader()` and `docsSchema()` in `src/content.config.ts`. Documents
+then live in `src/content/docs/`, where frontmatter describes the page and Markdown or MDX contains
+the body.
+
+```ts title="src/content.config.ts"
+import { defineCollection } from 'astro:content'
+import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content'
+
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema(),
+})
+
+export const collections = { docs }
+```
+
+This is an important constraint: Lotus generates an interface around the collection, but the theme
+does not become the source of truth for the content.
+
+## Configuration replaces template surgery
+
+Project identity and navigation live in `theme.config.json`. Teams can define the site name, logo,
+navigation groups, social links, search provider, localization, colors, and component overrides
+without editing package internals.
+
+<Steps>
+
+1. Start from the maintained Lotus starter or add the package to an existing Astro project.
+2. Register the integration and docs collection.
+3. Describe the shell in `theme.config.json`.
+4. Write documentation in Markdown and MDX.
+
+</Steps>
+
+<Callout type="note" title="Content stays portable">
+  Replacing the theme should mean replacing the shell and configuration—not
+  extracting years of writing from a proprietary store.
+</Callout>
+
+[Explore the Lotus documentation](https://astro-theme-lotus.prosefly.dev/docs/overview/), [open the showcase](https://astro-theme-lotus.prosefly.dev/showcase/), or [browse the source](https://github.com/prosefly/astro-theme-lotus).
