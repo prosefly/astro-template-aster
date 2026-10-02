@@ -26,8 +26,8 @@ small-size variant in `public/favicon.svg`.
 ## Start Aster
 
 ```sh
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 ## Content
@@ -72,13 +72,13 @@ content: {
 
 ## Commands
 
-| Command        | Action                          |
-| -------------- | ------------------------------- |
-| `pnpm dev`     | Start the development server    |
-| `pnpm check`   | Run Astro and TypeScript checks |
-| `pnpm build`   | Build the static site           |
-| `pnpm preview` | Preview the production build    |
-| `pnpm format`  | Format the project              |
+| Command           | Action                          |
+| ----------------- | ------------------------------- |
+| `npm run dev`     | Start the development server    |
+| `npm run check`   | Run Astro and TypeScript checks |
+| `npm run build`   | Build the static site           |
+| `npm run preview` | Preview the production build    |
+| `npm run format`  | Format the project              |
 
 ## License
 

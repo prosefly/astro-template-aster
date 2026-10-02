@@ -10,7 +10,6 @@
     "type": "git",
     "url": "https://github.com/prosefly/astro-template-aster.git"
   },
-  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
