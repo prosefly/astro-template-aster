@@ -59,6 +59,16 @@ src/
 Update the site identity, URL, shared links, navigation, and footer content in
 `src/data/config.ts`. Astro, the RSS feed, and the sitemap use the same configured site URL.
 
+Blog pagination and project-page related posts are configured in the same file. The first blog page
+uses `/blog/`; later pages use `/blog/page/2/`, `/blog/page/3/`, and so on.
+
+```ts
+content: {
+  blog: { postsPerPage: 5 },
+  projects: { relatedPostsLimit: 3 },
+}
+```
+
 ## Commands
 
 | Command        | Action                          |

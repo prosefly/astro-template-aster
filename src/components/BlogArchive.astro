@@ -1,0 +1,64 @@
+---
+import Pagination from '@/components/Pagination.astro'
+import PostList from '@/components/PostList.astro'
+import { config } from '@/data/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import type { BlogPost } from '@/lib/content'
+import type { PaginationPage } from '@/lib/pagination'
+
+interface Props {
+  page: PaginationPage<BlogPost>
+}
+
+const { page } = Astro.props
+const pageTitle =
+  page.currentPage === 1
+    ? `Blog — ${config.site.name}`
+    : `Blog, page ${page.currentPage} — ${config.site.name}`
+
+function getPageHref(pageNumber: number): string {
+  return pageNumber === 1 ? '/blog/' : `/blog/page/${pageNumber}/`
+}
+
+const previousHref =
+  page.currentPage > 1 ? getPageHref(page.currentPage - 1) : undefined
+const nextHref =
+  page.currentPage < page.totalPages
+    ? getPageHref(page.currentPage + 1)
+    : undefined
+---
+
+<BaseLayout
+  title={pageTitle}
+  description="Notes on building documentation themes, MDX components, and content infrastructure with Astro."
+  previousUrl={previousHref}
+  nextUrl={nextHref}
+>
+  <section class="mx-auto w-[min(calc(100%-2rem),48.75rem)] pt-18 pb-20 min-[761px]:w-[min(calc(100%-3rem),48.75rem)] min-[761px]:pt-16">
+    <p class="mb-3 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase">
+      Writing · {page.totalItems}
+    </p>
+    <h1 class="m-0 font-serif text-[clamp(2.5rem,4vw,2.75rem)] leading-[1.08] font-normal tracking-[-0.025em] [&_em]:font-normal [&_em]:text-muted">
+      Notes behind the
+      <br />
+      <em>projects.</em>
+    </h1>
+    <p class="mt-8 max-w-2xl text-muted">
+      Architecture decisions, implementation details, and design principles from
+      the Astro tools and themes featured in this Aster demo.
+    </p>
+  </section>
+
+  <section
+    class="mx-auto w-[min(calc(100%-2rem),48.75rem)] pb-24 min-[761px]:w-[min(calc(100%-3rem),48.75rem)]"
+    aria-label="Blog posts"
+  >
+    <PostList posts={page.items} />
+    <Pagination
+      currentPage={page.currentPage}
+      totalPages={page.totalPages}
+      previousHref={previousHref}
+      nextHref={nextHref}
+    />
+  </section>
+</BaseLayout>

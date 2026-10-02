@@ -1,0 +1,37 @@
+---
+import type { GetStaticPaths } from 'astro'
+import BlogArchive from '@/components/BlogArchive.astro'
+import { config } from '@/data/config'
+import { getPublishedBlogPosts, type BlogPost } from '@/lib/content'
+import { createPaginationPage, type PaginationPage } from '@/lib/pagination'
+
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedBlogPosts()
+  const firstPage = createPaginationPage(
+    posts,
+    1,
+    config.content.blog.postsPerPage,
+  )
+
+  return Array.from({ length: firstPage.totalPages - 1 }, (_, index) => {
+    const page = createPaginationPage(
+      posts,
+      index + 2,
+      config.content.blog.postsPerPage,
+    )
+
+    return {
+      params: { page: String(page.currentPage) },
+      props: { page },
+    }
+  })
+}) satisfies GetStaticPaths
+
+interface Props {
+  page: PaginationPage<BlogPost>
+}
+
+const { page } = Astro.props
+---
+
+<BlogArchive page={page} />

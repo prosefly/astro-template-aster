@@ -1,6 +1,7 @@
 ---
 import { render, type CollectionEntry } from 'astro:content'
 import PostList from '@/components/PostList.astro'
+import { config } from '@/data/config'
 import ContentLayout from '@/layouts/ContentLayout.astro'
 import {
   getPublishedBlogPosts,
@@ -14,21 +15,33 @@ export async function getStaticPaths() {
     getPublishedBlogPosts(),
   ])
 
-  return projects.map((project) => ({
-    params: { id: project.id },
-    props: {
-      project,
-      relatedPosts: posts.filter(({ data }) => data.project?.id === project.id),
-    },
-  }))
+  return projects.map((project) => {
+    const relatedPosts = posts.filter(
+      ({ data }) => data.project?.id === project.id,
+    )
+
+    return {
+      params: { id: project.id },
+      props: {
+        project,
+        relatedPosts: relatedPosts.slice(
+          0,
+          config.content.projects.relatedPostsLimit,
+        ),
+        hasMoreRelatedPosts:
+          relatedPosts.length > config.content.projects.relatedPostsLimit,
+      },
+    }
+  })
 }
 
 interface Props {
   project: CollectionEntry<'projects'>
   relatedPosts: BlogPost[]
+  hasMoreRelatedPosts: boolean
 }
 
-const { project, relatedPosts } = Astro.props
+const { project, relatedPosts, hasMoreRelatedPosts } = Astro.props
 const { Content } = await render(project)
 const projectMeta = [
   String(project.data.year),
@@ -62,6 +75,14 @@ const projectMeta = [
           Decisions, implementation notes, and lessons from the work.
         </p>
         <PostList posts={relatedPosts} />
+        {hasMoreRelatedPosts && (
+          <a
+            class="mt-5 inline-block text-sm text-muted underline decoration-faint underline-offset-[0.2em] transition-colors duration-150 hover:text-ink hover:decoration-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
+            href="/blog/"
+          >
+            View all writing →
+          </a>
+        )}
       </section>
     )}
   </Fragment>

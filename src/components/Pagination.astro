@@ -1,0 +1,43 @@
+---
+interface Props {
+  currentPage: number
+  totalPages: number
+  previousHref?: string
+  nextHref?: string
+}
+
+const { currentPage, totalPages, previousHref, nextHref } = Astro.props
+---
+
+{totalPages > 1 && (
+  <nav
+    class="mt-10 grid grid-cols-[1fr_auto_1fr] items-center gap-4 pt-5"
+    aria-label="Blog pagination"
+  >
+    <div>
+      {previousHref && (
+        <a
+          class="text-sm text-muted transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
+          href={previousHref}
+          rel="prev"
+        >
+          ← Previous
+        </a>
+      )}
+    </div>
+    <span class="font-mono text-[0.7rem] tracking-[0.05em] text-faint uppercase">
+      Page {currentPage} of {totalPages}
+    </span>
+    <div class="text-right">
+      {nextHref && (
+        <a
+          class="text-sm text-muted transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
+          href={nextHref}
+          rel="next"
+        >
+          Next →
+        </a>
+      )}
+    </div>
+  </nav>
+)}

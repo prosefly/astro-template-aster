@@ -7,10 +7,16 @@ import '@/styles/global.css'
 interface Props {
   title?: string
   description?: string
+  previousUrl?: string
+  nextUrl?: string
 }
 
-const { title = config.site.title, description = config.site.description } =
-  Astro.props
+const {
+  title = config.site.title,
+  description = config.site.description,
+  previousUrl,
+  nextUrl,
+} = Astro.props
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site)
 ---
 
@@ -28,6 +34,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site)
     <meta name="theme-color" content="#090909" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
+    {previousUrl && <link rel="prev" href={new URL(previousUrl, Astro.site)} />}
+    {nextUrl && <link rel="next" href={new URL(nextUrl, Astro.site)} />}
     <link
       rel="alternate"
       type="application/rss+xml"

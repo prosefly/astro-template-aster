@@ -19,6 +19,14 @@ interface SiteConfig {
     primary: readonly NavigationItem[]
     footer: readonly NavigationItem[]
   }
+  content: {
+    blog: {
+      postsPerPage: number
+    }
+    projects: {
+      relatedPostsLimit: number
+    }
+  }
   footer: {
     tagline: string
   }
@@ -50,6 +58,14 @@ export const config = {
       { label: 'Prosefly', href: links.prosefly },
       { label: 'GitHub', href: links.github },
     ],
+  },
+  content: {
+    blog: {
+      postsPerPage: 20,
+    },
+    projects: {
+      relatedPostsLimit: 3,
+    },
   },
   footer: {
     tagline: 'Projects and writing, built with Astro.',
