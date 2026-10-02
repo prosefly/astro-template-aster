@@ -20,7 +20,7 @@ small-size variant in `public/favicon.svg`.
 - MDX and `@prosefly/astro-components`
 - Responsive project and post indexes
 - Light and dark themes
-- RSS feed and generated sitemap
+- Full-content RSS feed and generated sitemap
 - Accessible semantic markup and reduced-motion support
 
 ## Start Aster
