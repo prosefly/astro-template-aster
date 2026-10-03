@@ -16,7 +16,7 @@ const { title, description, sectionHref, sectionLabel, meta } = Astro.props
 
 <BaseLayout title={`${title} — ${config.site.name}`} description={description}>
   <article class="mx-auto w-[min(calc(100%-2rem),48.75rem)] pb-24 sm:w-[min(calc(100%-3rem),48.75rem)]">
-    <header class="border-b border-rule pt-[clamp(5rem,9vw,8rem)] pb-12">
+    <header class="border-b border-rule pt-18 pb-12 min-[761px]:pt-16">
       <a
         class="mb-3 inline-flex items-center gap-1.5 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
         href={sectionHref}
