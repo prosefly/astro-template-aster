@@ -9,6 +9,15 @@ export default defineConfig({
   site: config.site.url,
   output: 'static',
   devToolbar: { enabled: false },
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+      defaultColor: false,
+    },
+  },
   integrations: [
     proseflyComponents({
       icons: {

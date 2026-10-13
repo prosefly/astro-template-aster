@@ -33,7 +33,7 @@ interface SiteConfig {
 }
 
 const links = {
-  prosefly: 'https://prosefly.dev/',
+  prosefly: 'https://prosefly.com/',
   github: 'https://github.com/prosefly/astro-template-aster',
 } as const
 
@@ -49,7 +49,6 @@ export const config = {
   links,
   navigation: {
     primary: [
-      { label: 'Home', href: '/' },
       { label: 'Projects', href: '/projects/' },
       { label: 'Blog', href: '/blog/' },
       { label: 'About', href: '/about/' },

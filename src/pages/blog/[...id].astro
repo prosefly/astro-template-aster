@@ -30,10 +30,10 @@ interface Props {
 
 const { post, relatedProject } = Astro.props
 const { Content } = await render(post)
-const postMeta = [
-  formatDate(post.data.publishedAt),
-  post.data.category,
-  ...post.data.tags,
+const postMetadata = [
+  { label: 'Published', value: formatDate(post.data.publishedAt) },
+  { label: 'Category', value: post.data.category },
+  { label: 'Tags', value: post.data.tags.join(', ') },
 ]
 ---
 
@@ -42,7 +42,7 @@ const postMeta = [
   description={post.data.description}
   sectionHref="/blog/"
   sectionLabel="Blog"
-  meta={postMeta}
+  metadata={postMetadata}
 >
   <Content />
 
@@ -52,15 +52,15 @@ const postMeta = [
         class="border-t border-rule pt-10"
         aria-labelledby="related-project"
       >
-        <p class="m-0 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase">
+        <p class="m-0 font-mono text-[0.7rem] tracking-[0.08em] text-muted uppercase">
           Related project
         </p>
         <a
-          class="mt-3 grid gap-1 text-inherit no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink"
+          class="group mt-3 grid gap-1 text-inherit no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink"
           href={`/projects/${relatedProject.id}/`}
         >
           <span
-            class="font-serif text-[1.6rem] leading-tight text-ink transition-colors duration-150 hover:text-muted motion-reduce:transition-none"
+            class="section-title text-ink transition-colors duration-150 group-hover:text-muted motion-reduce:transition-none"
             id="related-project"
           >
             {relatedProject.data.title}

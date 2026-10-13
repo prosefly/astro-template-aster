@@ -1,44 +1,299 @@
 ---
 import { Icon } from '@prosefly/astro-components'
+import MetadataGrid from '@/components/MetadataGrid.astro'
 import { config } from '@/data/config'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+
+interface MetadataItem {
+  label: string
+  value: string
+}
 
 interface Props {
   title: string
   description: string
   sectionHref: string
   sectionLabel: string
-  meta: string[]
+  metadata: MetadataItem[]
 }
 
-const { title, description, sectionHref, sectionLabel, meta } = Astro.props
+const { title, description, sectionHref, sectionLabel, metadata } = Astro.props
+const metadataColumns = metadata.length as 2 | 3 | 4
 ---
 
 <BaseLayout title={`${title} — ${config.site.name}`} description={description}>
-  <article class="mx-auto w-[min(calc(100%-2rem),48.75rem)] pb-24 sm:w-[min(calc(100%-3rem),48.75rem)]">
-    <header class="border-b border-rule pt-18 pb-12 min-[761px]:pt-16">
+  <article class="detail-shell pb-24">
+    <header class="pt-18 min-[761px]:pt-16">
       <a
-        class="mb-3 inline-flex items-center gap-1.5 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
+        class="mb-4 inline-flex items-center gap-1.5 font-mono text-[0.7rem] tracking-[0.08em] text-muted uppercase transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[5px] focus-visible:outline-ink motion-reduce:transition-none"
         href={sectionHref}
       >
         <Icon name="lucide:arrow-left" size="12" />
         {sectionLabel}
       </a>
-      <h1 class="m-0 font-serif text-[clamp(2.5rem,4vw,2.75rem)] leading-[1.08] font-normal tracking-tight">
-        {title}
-      </h1>
-      <p class="mt-6 max-w-2xl text-[1.05rem] text-muted">{description}</p>
-      <div class="mt-8 flex flex-wrap gap-x-4 gap-y-2.5 font-mono text-[0.7rem] tracking-wider text-faint uppercase">
-        {meta.map((item) => (
-          <span>{item}</span>
+      <h1 class="page-title detail-title">{title}</h1>
+      <p class="detail-summary">{description}</p>
+      <MetadataGrid columns={metadataColumns}>
+        {metadata.map(({ label, value }) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
         ))}
-      </div>
+      </MetadataGrid>
     </header>
 
-    <div class="prose max-w-2xl py-14 text-muted [--tw-prose-body:var(--muted)] [--tw-prose-bold:var(--ink)] [--tw-prose-bullets:var(--faint)] [--tw-prose-captions:var(--faint)] [--tw-prose-code:var(--ink)] [--tw-prose-counters:var(--faint)] [--tw-prose-headings:var(--ink)] [--tw-prose-hr:var(--rule)] [--tw-prose-lead:var(--muted)] [--tw-prose-links:var(--ink)] [--tw-prose-pre-bg:var(--pf-surface)] [--tw-prose-pre-code:var(--ink)] [--tw-prose-quote-borders:var(--rule)] [--tw-prose-quotes:var(--muted)] [--tw-prose-td-borders:var(--rule)] [--tw-prose-th-borders:var(--rule)] prose-headings:font-serif prose-headings:font-normal prose-headings:tracking-[-0.015em] prose-h2:mt-14 prose-h2:mb-4 prose-h2:text-[2rem] prose-h3:mt-10 prose-h3:mb-3 prose-h3:text-2xl prose-a:decoration-faint prose-a:underline-offset-[0.2em] prose-a:hover:decoration-ink prose-code:font-mono prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none prose-blockquote:font-serif prose-blockquote:text-[1.35rem] prose-blockquote:font-normal prose-blockquote:italic">
+    <div class="prose reading-prose">
       <slot />
     </div>
 
     <slot name="after-content" />
   </article>
 </BaseLayout>
+
+<style>
+  .detail-title {
+    font-size: clamp(2.5rem, 6vw, 3.25rem);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .detail-summary {
+    max-width: 38rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .reading-prose {
+    --tw-prose-body: color-mix(in srgb, var(--ink) 82%, var(--canvas));
+    --tw-prose-headings: var(--ink);
+    --tw-prose-lead: var(--muted);
+    --tw-prose-links: var(--ink);
+    --tw-prose-bold: var(--ink);
+    --tw-prose-counters: var(--muted);
+    --tw-prose-bullets: var(--muted);
+    --tw-prose-hr: var(--rule);
+    --tw-prose-quotes: var(--tw-prose-body);
+    --tw-prose-quote-borders: var(--rule);
+    --tw-prose-captions: var(--muted);
+    --tw-prose-code: var(--ink);
+    --tw-prose-pre-code: var(--ink);
+    --tw-prose-pre-bg: var(--pf-surface);
+    --tw-prose-th-borders: var(--rule);
+    --tw-prose-td-borders: var(--rule);
+    max-width: none;
+    padding-block: 3rem;
+    color: var(--tw-prose-body);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .reading-prose
+    :global(:where(h1, h2, h3, h4):not(:where(.not-prose, .not-prose *))) {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+
+  .reading-prose :global(:where(h1):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 3rem 1rem;
+    font-size: 1.75rem;
+  }
+
+  .reading-prose :global(:where(h2):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 3rem 1rem;
+    font-size: 1.375rem;
+  }
+
+  .reading-prose :global(:where(h3):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 2rem 0.75rem;
+    font-size: 1.1875rem;
+  }
+
+  .reading-prose :global(:where(h4):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 1.75rem 0.5rem;
+    font-size: 1.0625rem;
+  }
+
+  .reading-prose
+    :global(
+      :where(p, ul, ol, pre, table, blockquote, figure):not(
+        :where(.not-prose, .not-prose *)
+      )
+    ) {
+    margin-block: 1.5rem;
+  }
+
+  .reading-prose
+    :global(
+      :where(h1, h2, h3, h4):not(:where(.not-prose, .not-prose *))
+        + :not(:where(.not-prose, .not-prose *))
+    ) {
+    margin-top: 0;
+  }
+
+  .reading-prose :global(.pf-callout .pf-callout__title) {
+    margin-block: 0;
+  }
+
+  .reading-prose :global(.pf-callout .pf-callout__slot) {
+    margin-block-start: 0.5rem;
+    line-height: 1.42;
+  }
+
+  .reading-prose :global(.pf-card__title),
+  .reading-prose :global(.pf-card__content > *) {
+    margin-block: 0;
+  }
+
+  .reading-prose :global(.pf-embed__title),
+  .reading-prose :global(.pf-embed__description) {
+    margin-block: 0;
+  }
+
+  .reading-prose :global(.pf-card__content > * + *) {
+    margin-block-start: var(--pf-card-content-gap, 0.5rem);
+  }
+
+  .reading-prose :global(.pf-steps) {
+    padding: 0;
+  }
+
+  .reading-prose :global(.pf-file-tree) {
+    padding: 0.75rem;
+  }
+
+  .reading-prose :global(.pf-file-tree :where(p, ul, li)) {
+    margin: 0;
+  }
+
+  .reading-prose :global(.pf-file-tree__list) {
+    padding-inline-start: 1.5rem;
+  }
+
+  .reading-prose
+    :global(.pf-tabs__panels:has(.pf-tabs__panel > pre:only-child)) {
+    padding: 0;
+  }
+
+  .reading-prose :global(.pf-tabs__panel > pre:only-child) {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    border: 0;
+  }
+
+  .reading-prose :global(.pf-tabs__panel > pre.astro-code:only-child),
+  .reading-prose :global(.pf-tabs__panel > pre.astro-code:only-child span) {
+    background-color: transparent;
+  }
+
+  .reading-prose :global(:where(strong):not(:where(.not-prose, .not-prose *))) {
+    font-weight: 600;
+  }
+
+  .reading-prose :global(:where(ul, ol):not(:where(.not-prose, .not-prose *))) {
+    padding-inline-start: 1.5em;
+  }
+
+  .reading-prose :global(:where(li):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 0.4em;
+  }
+
+  .reading-prose :global(:where(li p):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 0.75em;
+  }
+
+  .reading-prose
+    :global(:where(blockquote):not(:where(.not-prose, .not-prose *))) {
+    padding-inline-start: 1.25rem;
+    border-inline-start-width: 2px;
+    font-size: 1em;
+    font-weight: 400;
+    font-style: normal;
+    quotes: none;
+  }
+
+  .reading-prose :global(:where(code):not(:where(.not-prose, .not-prose *))) {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    font-weight: 400;
+  }
+
+  .reading-prose
+    :global(:where(code):not(:where(.not-prose, .not-prose *)))::before,
+  .reading-prose
+    :global(:where(code):not(:where(.not-prose, .not-prose *)))::after {
+    content: none;
+  }
+
+  .reading-prose :global(:where(pre):not(:where(.not-prose, .not-prose *))) {
+    padding: 1.25rem;
+    border: 1px solid var(--rule);
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .reading-prose
+    :global(:where(pre code):not(:where(.not-prose, .not-prose *))) {
+    font-size: inherit;
+  }
+
+  .reading-prose :global(:where(table):not(:where(.not-prose, .not-prose *))) {
+    font-size: 0.875em;
+    line-height: 1.6;
+  }
+
+  .reading-prose
+    :global(:where(figcaption):not(:where(.not-prose, .not-prose *))) {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .reading-prose :global(:where(hr):not(:where(.not-prose, .not-prose *))) {
+    margin-block: 3rem;
+  }
+
+  .reading-prose > :global(:first-child:not(.not-prose)) {
+    margin-top: 0;
+  }
+
+  .reading-prose > :global(:last-child:not(.not-prose)) {
+    margin-bottom: 0;
+  }
+
+  .reading-prose > :global(.footnotes) {
+    margin-block-start: 3rem;
+    padding-block-start: 0.725rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 640px) {
+    .detail-summary,
+    .reading-prose {
+      font-size: 1.125rem;
+    }
+
+    .reading-prose :global(:where(h1):not(:where(.not-prose, .not-prose *))) {
+      font-size: 2rem;
+    }
+
+    .reading-prose :global(:where(h2):not(:where(.not-prose, .not-prose *))) {
+      font-size: 1.5rem;
+    }
+
+    .reading-prose :global(:where(h3):not(:where(.not-prose, .not-prose *))) {
+      font-size: 1.25rem;
+    }
+
+    .reading-prose :global(:where(h4):not(:where(.not-prose, .not-prose *))) {
+      font-size: 1.125rem;
+    }
+  }
+</style>
